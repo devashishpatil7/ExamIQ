@@ -1,0 +1,41 @@
+{
+  "name": "examiq",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "concurrently \"node server.js\" \"vite\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "start": "node server.js",
+    "server": "node server.js",
+    "client": "vite"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^4.9.2",
+    "@google/genai": "^1.29.0",
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "concurrently": "^9.0.0",
+    "lucide-react": "^0.546.0",
+    "mammoth": "^1.11.0",
+    "motion": "^12.34.3",
+    "pdfjs-dist": "^5.4.624",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.7.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.1.14",
+    "vite": "^6.2.0"
+  }
+}
