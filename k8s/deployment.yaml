@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: examiq
+  labels:
+    app: examiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: examiq
+  template:
+    metadata:
+      labels:
+        app: examiq
+    spec:
+      containers:
+      - name: examiq
+        image: miniprodev.azurecr.io/examiq:v1.12
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: examiq-secrets
+              key: GEMINI_API_KEY
+              optional: true
+        # 🔥 Cosmos DB Connection
+        - name: COSMOS_DB_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: examiq-secret
+              key: COSMOS_DB_CONNECTION_STRING
+        # 🔥 Force Cosmos (disable SQLite fallback)
+        - name: USE_SQLITE
+          value: "false"
+        # Health checks
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
